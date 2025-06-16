@@ -48,5 +48,25 @@ public:
             }
         }
         return maxLen;
+
+        // Approach 4 : Using Hashset TC: O(N), SC: O(N)
+        // unordered_set<int> numSet(nums.begin(), nums.end());
+        // int longest = 0;
+
+        // for (int num : nums) {
+        //     if (!numSet.count(num - 1)) {  // start of a sequence
+        //         int currNum = num;
+        //         int currStreak = 1;
+
+        //         while (numSet.count(currNum + 1)) {
+        //             currNum += 1;
+        //             currStreak += 1;
+        //         }
+
+        //         longest = max(longest, currStreak);
+        //     }
+        // }
+
+        // return longest;
     }
 };
