@@ -22,17 +22,31 @@ public:
         // return count;
 
         // Approach 2 : Using unordered_set which has Time Complexity - O(N) and Space Complexity - O(N)
-        unordered_set<int> numSet(nums.begin(), nums.end());
-        int longest = 0;
-        for(int num:numSet){
-            if(numSet.find(num - 1) == numSet.end()){
-                int length = 1;
-                while(numSet.find(num+length) != numSet.end()){
-                    length++;
-                }
-                longest = max(longest, length);
+        // unordered_set<int> numSet(nums.begin(), nums.end());
+        // int longest = 0;
+        // for(int num:numSet){
+        //     if(numSet.find(num - 1) == numSet.end()){
+        //         int length = 1;
+        //         while(numSet.find(num+length) != numSet.end()){
+        //             length++;
+        //         }
+        //         longest = max(longest, length);
+        //     }
+        // }
+        // return longest;
+
+
+        // Approach 3 : Using unordered map with TC: O(N) and SC: O(N)
+        unordered_map<int, int> mp;
+        int maxLen = 0;
+        for(int num: nums){
+            if(!mp[num]){
+                mp[num] = mp[num-1] + mp[num+1] + 1;
+                mp[num - mp[num-1]] = mp[num];
+                mp[num + mp[num+1]] = mp[num];
+                maxLen = max(maxLen, mp[num]);
             }
         }
-        return longest;
+        return maxLen;
     }
 };
