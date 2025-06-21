@@ -17,20 +17,29 @@ public:
     // return result;
 
     // Approach 2 : Two Pointer approach - Time Complexity is O(N)
-        int n = numbers.size();
-        int left  = 0;
-        int right = n-1;
-        vector<int> result;
-        int sum ;
-        while(left < right){
-            sum = numbers[left] + numbers[right];
-            if(sum == target) {
-               return {left+1 , right+1}; // 1-based Indexing
-            }
-            else if(sum < target) left++;
-            else{
-                right--;
-            }
+        // int n = numbers.size();
+        // int left  = 0;
+        // int right = n-1;
+        // vector<int> result;
+        // int sum ;
+        // while(left < right){
+        //     sum = numbers[left] + numbers[right];
+        //     if(sum == target) {
+        //        return {left+1 , right+1}; // 1-based Indexing
+        //     }
+        //     else if(sum < target) left++;
+        //     else{
+        //         right--;
+        //     }
+        // }
+        // return {};
+    // Approach 3 : Using HashMap
+        unordered_map<int, int> seen;
+        for(int i = 0; i < numbers.size(); ++i){
+            int complement = target - numbers[i];
+            if(seen.count(complement)) 
+                return {seen[complement]+1 , (i+1)};
+            seen[numbers[i]] = i ;
         }
         return {};
     }
