@@ -19,16 +19,28 @@ public:
     //  } 
     //  return result;
 
-    // Approach 2 : 
-    stack<int> st;
-    vector<int> res(temperatures.size(), 0);
+    // Approach 2 : Using Stack Data Structure
+    // stack<int> st;
+    // vector<int> res(temperatures.size(), 0);
+    // for(int i = 0; i < temperatures.size(); i++){
+    //     while(!st.empty() && temperatures[i] > temperatures[st.top()]){
+    //         int idx = st.top(); st.pop();
+    //         res[idx] = i - idx;
+    //     }
+    //     st.push(i);
+    // }
+    // return res;
+
+    // Approach 3 : using 
+    vector<int> results(temperatures.size());
+    stack<int> stack;
     for(int i = 0; i < temperatures.size(); i++){
-        while(!st.empty() && temperatures[i] > temperatures[st.top()]){
-            int idx = st.top(); st.pop();
-            res[idx] = i - idx;
+        while(!stack.empty() && temperatures[stack.top()] < temperatures[i]){
+            results[stack.top()] = i - stack.top();
+            stack.pop();
         }
-        st.push(i);
+        stack.push(i);
     }
-    return res;
+    return results;
     }
 };
