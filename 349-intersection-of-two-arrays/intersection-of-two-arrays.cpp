@@ -2,22 +2,38 @@ class Solution {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
         // Approach 1 : Brute Force  - TC : O(n*m), SC : O(n+m)
+        // vector<int> res;
+        // vector<int> flag(nums2.size(), 0);
+        // set<int> inserted;
+        // for(int i = 0; i < nums1.size(); i++) {
+        //     for(int j = 0; j < nums2.size(); j++) {
+        //         if(nums1[i] == nums2[j] && flag[j] == 0 && inserted.count(nums1[i]) == 0) {
+        //             res.push_back(nums1[i]);
+        //             flag[j] = 1;
+        //             inserted.insert(nums1[i]);
+        //         }
+        //     }
+        // }
+        // return res;
+
+        // Approach 2 : Two Pointer with sorting - TC
+        sort(nums1.begin(), nums1.end());
+        sort(nums2.begin(), nums2.end());
         vector<int> res;
-        vector<int> flag(nums2.size(), 0);
-        set<int> inserted;
-        for(int i = 0; i < nums1.size(); i++) {
-            for(int j = 0; j < nums2.size(); j++) {
-                if(nums1[i] == nums2[j] && flag[j] == 0 && inserted.count(nums1[i]) == 0) {
-                    res.push_back(nums1[i]);
-                    flag[j] = 1;
-                    inserted.insert(nums1[i]);
-                }
+
+        int i = 0, j = 0;
+        while(i < nums1.size() && j < nums2.size()){
+            if(nums1[i] == nums2[j]) {
+                if(res.empty() || res.back() != nums1[i]) res.push_back(nums1[i]);
+                i++;
+                j++;
+            } else if(nums1[i] < nums2[j]) {
+                i++;
+            } else {
+                j++;
             }
-           
         }
- return res;
-
-
+        return res;
         // Approach 1 : Using Unordered Set - TC : O(N), SC : O(N+M)
         // unordered_set<int> set1(nums1.begin(), nums1.end());
         // unordered_set<int> set2(nums2.begin(), nums2.end());
