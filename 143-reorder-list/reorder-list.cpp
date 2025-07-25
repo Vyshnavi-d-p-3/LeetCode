@@ -13,13 +13,14 @@ public:
     void reorderList(ListNode* head) {
         stack<ListNode*> s;
         ListNode* curr = head;
-        
-        while(curr) {
+        while(curr){
             s.push(curr);
-            curr = curr->next;
+            curr=curr->next;
         }
+
         curr = head;
         unordered_map<ListNode*, bool> vis;
+
         while(true) {
             ListNode* last = s.top();
             s.pop();
