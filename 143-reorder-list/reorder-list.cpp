@@ -48,35 +48,70 @@ public:
         if(!head) return;
 
         // Finding the middle with the help of two pointer approach
-        ListNode *tmp = head, *half = head, *prev = NULL;
-        while(tmp->next && tmp->next->next) {
-            tmp = tmp->next->next;
-            half = half->next;
+        // ListNode *tmp = head, *half = head, *prev = NULL;
+        // while(tmp->next && tmp->next->next) {
+        //     tmp = tmp->next->next;
+        //     half = half->next;
+        // }
+
+        // // Adding one bit in case of lists with even length
+        // if(tmp->next) half = half->next;
+
+        // // Now reverse the second half
+        // while(half) {
+        //     tmp = half->next;
+        //     half->next = prev;
+        //     prev = half;
+        //     half = tmp;
+        // }
+        // half = prev;
+
+        // // After reversing the secind half, let's merge both the halfes
+        // while(head && half) {
+        //     tmp = head->next;
+        //     prev = half->next;
+        //     head->next = half;
+        //     half->next = tmp;
+        //     head = tmp;
+        //     half = prev;
+        // }
+
+        // // Base case : closing when we had even length arrays
+        // if(head && head->next) head->next->next = NULL;
+
+        if(!head) return;
+
+        // Step 1: Find the middle of the list
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
         }
 
-        // Adding one bit in case of lists with even length
-        if(tmp->next) half = half->next;
+        // Step 2: Reverse the second half of the list
+        ListNode* second = slow->next;
+        slow->next = nullptr;
+        ListNode* node = nullptr;
 
-        // Now reverse the second half
-        while(half) {
-            tmp = half->next;
-            half->next = prev;
-            prev = half;
-            half = tmp;
-        }
-        half = prev;
-
-        // After reversing the secind half, let's merge both the halfes
-        while(head && half) {
-            tmp = head->next;
-            prev = half->next;
-            head->next = half;
-            half->next = tmp;
-            head = tmp;
-            half = prev;
+        while(second) {
+            ListNode* temp = second->next;
+            second->next = node;
+            node = second;
+            second = temp;
         }
 
-        // Base case : closing when we had even length arrays
-        if(head && head->next) head->next->next = NULL;
+        // Step 3 : Merge the two halves
+        ListNode* first = head;
+        second = node;
+        while(second) {
+            ListNode* temp1 = first->next;
+            ListNode* temp2 = second->next;
+            first->next = second;
+            second->next = temp1;
+            first = temp1;
+            second = temp2;
+        }
+        
     }
 };
