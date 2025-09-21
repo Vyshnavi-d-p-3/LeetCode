@@ -65,55 +65,89 @@
 // }
 // };
 
-class Solution { 
+// class Solution { 
+// public:
+//     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+//         map<int, list<int>> adjList;
+//         vector<int> indegree(numCourses, 0);
+//         vector<int> topologicalOrder;
+
+//         // Create the adjacency list representation of the graph
+//         for(int i = 0; i < prerequisites.size(); i++) {
+//             int dest = prerequisites[i][0];
+//             int src = prerequisites[i][1];
+//             adjList[src].push_back(dest);
+
+//             // Record in-degree of each vertex
+//             indegree[dest]++;
+//         }
+
+//         // Add all vertices with 0 in-degree to the queue
+//         queue<int> q;
+//         for(int i = 0 ; i < numCourses; i++){
+//             if(indegree[i] == 0) {
+//                 q.push(i);
+//             }
+//         }
+
+//         // Process until the queue becomes empty
+//         while(!q.empty()){
+//             int node = q.front();
+//             q.pop();
+//             topologicalOrder.push_back(node);
+
+//             // Reduce the in-degree of each neighbor by 1
+//             if(adjList.count(node)) {
+//                 for(auto neighbor : adjList[node]) {
+//                     indegree[neighbor]--;
+
+//                     // Id in-degree of a neighbor becomes 0, add it to the queue
+//                     if(indegree[neighbor] == 0) {
+//                         q.push(neighbor);
+//                     }
+//                 }
+//             }
+//         }
+
+//         // Check to see if topological sort is possible or not
+//         if(topologicalOrder.size() == numCourses) {
+//             return topologicalOrder;
+//         }
+
+//         return vector<int>();
+//     }
+// };
+
+class Solution {
 public:
-    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        map<int, list<int>> adjList;
-        vector<int> indegree(numCourses, 0);
-        vector<int> topologicalOrder;
-
-        // Create the adjacency list representation of the graph
-        for(int i = 0; i < prerequisites.size(); i++) {
-            int dest = prerequisites[i][0];
-            int src = prerequisites[i][1];
-            adjList[src].push_back(dest);
-
-            // Record in-degree of each vertex
-            indegree[dest]++;
+    vector<int> findOrder(int num, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> graphs(num, vector<int>());
+        vector<int> indegree(num);
+        for(vector<int>&ans : prerequisites) {
+            graphs[ans[1]].push_back(ans[0]);
+            indegree[ans[0]]++;
         }
-
-        // Add all vertices with 0 in-degree to the queue
-        queue<int> q;
-        for(int i = 0 ; i < numCourses; i++){
-            if(indegree[i] == 0) {
-                q.push(i);
-            }
+        queue<int> zero;
+        for(int i = 0; i < num; i++) {
+            if(indegree[i] == 0 ) zero.push(i);
         }
-
-        // Process until the queue becomes empty
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
-            topologicalOrder.push_back(node);
-
-            // Reduce the in-degree of each neighbor by 1
-            if(adjList.count(node)) {
-                for(auto neighbor : adjList[node]) {
-                    indegree[neighbor]--;
-
-                    // Id in-degree of a neighbor becomes 0, add it to the queue
-                    if(indegree[neighbor] == 0) {
-                        q.push(neighbor);
-                    }
+        vector<int> ans;
+        int visited = 0;
+        while(!zero.empty()) {
+            int u = zero.front();
+            zero.pop();
+            ans.push_back(u);
+            visited++;
+            for(int v : graphs[u]) {
+                indegree[v]--;
+                if(indegree[v] == 0) {
+                    zero.push(v);
                 }
             }
         }
-
-        // Check to see if topological sort is possible or not
-        if(topologicalOrder.size() == numCourses) {
-            return topologicalOrder;
+        if(visited == num) {
+            return ans;
         }
-
-        return vector<int>();
+        return {};
     }
 };
