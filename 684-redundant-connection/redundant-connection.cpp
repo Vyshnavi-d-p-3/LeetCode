@@ -1,36 +1,38 @@
 class Solution {
-private:
-    // Perform DFS and returns true if there is a path between src and target.
-    bool isConnected(int src, int target, vector<bool>& visisted, vector<int> adjList[]) {
-        visisted[src] = true;
-        if(src == target) {
-            return true;
-        }
-
-        int isFound = false;
-        for(int adj : adjList[src]) {
-            if(!visisted[adj]) {
-                isFound = isFound || isConnected(adj, target, visisted, adjList);
-            }
-        }
-        return isFound;
-    }
-
 public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
-        int N = edges.size();
+        unordered_map<int, vector<int>> graph;
 
-        vector<int> adjList[N];
-        for (auto edge : edges) {
-            vector<bool> visited(N, false);
+        auto isConnected = [&](int u, int v) {
+            unordered_set<int> visited;
+            stack<int> stack;
+            stack.push(u);
 
-            // If DFS returns true, we will return the edge.
-            if (isConnected(edge[0] - 1, edge[1] - 1, visited, adjList)) {
+            while (!stack.empty()) {
+                int node = stack.top();
+                stack.pop();
+
+                if (visited.count(node)) continue;
+                visited.insert(node);
+
+                if (node == v) return true;
+
+                for (int neighbor : graph[node]) {
+                    stack.push(neighbor);
+                }
+            }
+            return false;
+        };
+
+        for (const auto& edge : edges) {
+            int u = edge[0], v = edge[1];
+
+            if (graph.count(u) && graph.count(v) && isConnected(u, v)) {
                 return edge;
             }
 
-            adjList[edge[0] - 1].push_back(edge[1] - 1);
-            adjList[edge[1] - 1].push_back(edge[0] - 1);
+            graph[u].push_back(v);
+            graph[v].push_back(u);
         }
 
         return {};
