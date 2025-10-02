@@ -1,37 +1,41 @@
-class DisjointSet {
-    vector<int> parent, depth;
-public:
-    DisjointSet(int n) : parent(n), depth(n) {
-        depth.assign(n, 1);
-        iota(parent.begin(), parent.end(), 0);
-    }
-
-    int getRoot(int x) {
-        if (x == parent[x])
-            return x;
-        return parent[x] = getRoot(parent[x]);
-    }
-
-    bool merge(int x, int y) {
-        int rootX = getRoot(x), rootY = getRoot(y);
-        if (rootX == rootY)
-            return false;
-        if (depth[rootX] > depth[rootY])
-            swap(rootX, rootY);
-        parent[rootX] = rootY;
-        if (depth[rootX] == depth[rootY])
-            depth[rootY]++;
-        return true;
-    }
-};
-
 class Solution {
+private:
+    // Performs DFS and returns true if there's a path between src and target.
+    bool isConnected(int src, int target, vector<bool>& visited,
+                     vector<int> adjList[]) {
+        visited[src] = true;
+
+        if (src == target) {
+            return true;
+        }
+
+        int isFound = false;
+        for (int adj : adjList[src]) {
+            if (!visited[adj]) {
+                isFound = isFound || isConnected(adj, target, visited, adjList);
+            }
+        }
+
+        return isFound;
+    }
+
 public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
-        int n = edges.size();
-        DisjointSet ds(n + 1);
-        for (auto& edge : edges)
-            if (!ds.merge(edge[0], edge[1])) return edge;
+        int N = edges.size();
+
+        vector<int> adjList[N];
+        for (auto edge : edges) {
+            vector<bool> visited(N, false);
+
+            // If DFS returns true, we will return the edge.
+            if (isConnected(edge[0] - 1, edge[1] - 1, visited, adjList)) {
+                return edge;
+            }
+
+            adjList[edge[0] - 1].push_back(edge[1] - 1);
+            adjList[edge[1] - 1].push_back(edge[0] - 1);
+        }
+
         return {};
     }
 };
