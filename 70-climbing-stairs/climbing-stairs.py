@@ -27,7 +27,7 @@
 
 #         return memo[i]
 
-# Optimal - Dynamic Programming 
+# Optimal - Dynamic Programming - TC(O(n)) - SC(O(n))
 class Solution:
     def climbStairs(self, n: int) -> int:
         if n == 1:
