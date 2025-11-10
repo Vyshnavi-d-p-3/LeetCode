@@ -39,7 +39,7 @@
 #             dp[i] = dp[i - 1] + dp[i - 2]
 #         return dp[n]
 
-# Optimal - Fibonacci Number
+# Optimal - Fibonacci Number - TC(O(n)) - SC(O(1))
 class Solution:
     def climbStairs(self, n):
         if n == 1:
