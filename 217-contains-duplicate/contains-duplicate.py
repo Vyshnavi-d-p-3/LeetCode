@@ -20,14 +20,15 @@
 #         return False
 
 # Hash Set : TC(O(N))
-class Solution:
-    def containsDuplicate(self, nums: List[int]) -> bool:
-        List_NoDuplicates = set()
-        for num in nums:
-            if num in List_NoDuplicates:
-                return True
-            List_NoDuplicates.add(num)
-        return False
+# class Solution:
+#     def containsDuplicate(self, nums: List[int]) -> bool:
+#         List_NoDuplicates = set()
+#         for num in nums:
+#             if num in List_NoDuplicates:
+#                 return True
+#             List_NoDuplicates.add(num)
+#         return False
+
 # Hash Map : TC(O(N))
 # class Solution:
 #     def containsDuplicate(Self, nums: List[int]) -> bool:
@@ -37,3 +38,8 @@ class Solution:
 #                 return True
 #             seen[num] = seen.get(num, 0) + 1
 #         return False
+
+# Short Form - Hash Set - TC(O(n)), SC(O(n))
+class Solution:
+    def containsDuplicate(self, nums:List[int]) -> bool:
+        return True if len(set(nums)) < len(nums) else False
