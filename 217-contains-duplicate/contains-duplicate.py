@@ -22,13 +22,12 @@
 # Hash Set : TC(O(N))
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
-        seen = set()
+        List_NoDuplicates = set()
         for num in nums:
-            if num in seen:
+            if num in List_NoDuplicates:
                 return True
-            seen.add(num)
+            List_NoDuplicates.add(num)
         return False
-
 # Hash Map : TC(O(N))
 # class Solution:
 #     def containsDuplicate(Self, nums: List[int]) -> bool:
