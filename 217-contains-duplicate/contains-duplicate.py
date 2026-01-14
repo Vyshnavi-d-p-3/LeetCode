@@ -20,21 +20,21 @@
 #         return False
 
 # Hash Set : TC(O(N))
-# class Solution:
-#     def containsDuplciate(self, nums: List[int]) -> bool:
-#         seen = set()
-#         for num in nums:
-#             if num in seen:
-#                 return True
-#             seen.add(num)
-#         return False
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        seen = set()
+        for num in nums:
+            if num in seen:
+                return True
+            seen.add(num)
+        return False
 
 # Hash Map : TC(O(N))
-class Solution:
-    def containsDuplicate(Self, nums: List[int]) -> bool:
-        seen = {}
-        for num in nums:
-            if num in seen and seen[num] >= 1:
-                return True
-            seen[num] = seen.get(num, 0) + 1
-        return False
+# class Solution:
+#     def containsDuplicate(Self, nums: List[int]) -> bool:
+#         seen = {}
+#         for num in nums:
+#             if num in seen and seen[num] >= 1:
+#                 return True
+#             seen[num] = seen.get(num, 0) + 1
+#         return False
