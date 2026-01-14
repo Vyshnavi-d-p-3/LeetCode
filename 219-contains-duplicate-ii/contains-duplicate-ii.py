@@ -1,27 +1,23 @@
+#  BruteForce - Two Pointer Approach - TC(O(n^2)), SC(O(1))
 # class Solution:
-#     def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
-#         seen = {}
-
-#         for i, val in enumerate(nums):
-#             if val in seen and i - seen[val] <= k:
+#     def containsNearbyDuplicate(self, nums: List[int], k:int) -> bool:
+#         i, j = 0, len(nums) - 1
+#         while i < j:
+#             if nums[i] == nums[j] and abs(i-j) <= k:
 #                 return True
 #             else:
-#                 seen[val] = i
+#                 j -= 1
+#                 if j == i:
+#                     i += 1
+#                     j = len(nums) - 1
 #         return False
 
+# Hash Map(Dictionary) - TC(O()), SC(O())
 class Solution:
     def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
-        seen = set()
-        left = 0
-
-        for right, val in enumerate(nums):
-            if val in seen:
+        d = {}
+        for i, num in enumerate(nums):
+            if num in d and i - d[num] <=k:
                 return True
-
-            seen.add(val)
-
-            if right - left >= k:
-                seen.remove(nums[left])
-                left += 1
-
+            d[num] = i
         return False
