@@ -12,14 +12,26 @@
 #                     j = len(nums) - 1
 #         return False
 
-# Hash Map(Dictionary) - TC(O()), SC(O())
+# Hash Map(Dictionary) - TC(O(N)), SC(O(N))
+# class Solution:
+#     def containsNearbyDuplicate(self, nums: List[int], k:int) -> bool:
+#         d = {}
+#         for i, num in enumerate(nums):
+#             if num in d and i - d[num] <= k:
+#                 return True
+#             d[num] = i
+#         return False
+
+# Sliding Window - TC(O(N)), SC(O(k))
 class Solution:
     def containsNearbyDuplicate(self, nums: List[int], k:int) -> bool:
-        d = {}
+        window = set()
         for i, num in enumerate(nums):
-            if num in d and i - d[num] <= k:
+            if num in window:
                 return True
-            d[num] = i
+            window.add(num)
+            if i >= k:
+                window.remove(nums[i-k])
         return False
-            
-        
+
+             
