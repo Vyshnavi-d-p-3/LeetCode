@@ -1,37 +1,23 @@
-#  BruteForce - Two Pointer Approach - TC(O(n^2)), SC(O(1))
 # class Solution:
-#     def containsNearbyDuplicate(self, nums: List[int], k:int) -> bool:
-#         i, j = 0, len(nums) - 1
-#         while i < j:
-#             if nums[i] == nums[j] and abs(i-j) <= k:
+#     def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+#         seen = {}
+
+#         for i, val in enumerate(nums):
+#             if val in seen and i - seen[val] <= k:
 #                 return True
 #             else:
-#                 j -= 1
-#                 if j == i:
-#                     i += 1
-#                     j = len(nums) - 1
+#                 seen[val] = i
 #         return False
 
-# Hash Map(Dictionary) - TC(O(N)), SC(O(N))
-# class Solution:
-#     def containsNearbyDuplicate(self, nums: List[int], k:int) -> bool:
-#         d = {}
-#         for i, num in enumerate(nums):
-#             if num in d and i - d[num] <= k:
-#                 return True
-#             d[num] = i
-#         return False
-
-# Sliding Window - TC(O(N)), SC(O(k))
 class Solution:
-    def containsNearbyDuplicate(self, nums: List[int], k:int) -> bool:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        left = 0
         window = set()
-        for i, num in enumerate(nums):
-            if num in window:
+        for right in range(len(nums)):
+            if nums[right] in window:
                 return True
-            window.add(num)
-            if i >= k:
-                window.remove(nums[i-k])
+            window.add(nums[right])
+            if right - left >= k:
+                window.remove(nums[left])
+                left += 1
         return False
-
-             
