@@ -9,15 +9,27 @@
 #                 seen[val] = i
 #         return False
 
+# class Solution:
+#     def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+#         left = 0
+#         window = set()
+#         for right in range(len(nums)):
+#             if nums[right] in window:
+#                 return True
+#             window.add(nums[right])
+#             if right - left >= k:
+#                 window.remove(nums[left])
+#                 left += 1
+#         return False
+
+
+# HashMap
 class Solution:
     def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
-        left = 0
-        window = set()
-        for right in range(len(nums)):
-            if nums[right] in window:
+        seen = {}
+        for i, val in enumerate(nums):
+            if val in seen and i - seen[val] <= k:
                 return True
-            window.add(nums[right])
-            if right - left >= k:
-                window.remove(nums[left])
-                left += 1
+            else:
+                seen[val] = i
         return False
