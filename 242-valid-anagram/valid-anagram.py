@@ -11,20 +11,31 @@
 #                 return False
 #         return True
 
-
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
         if len(s) != len(t):
             return False
-
         counter = {}
-
         for char in s:
             counter[char] = counter.get(char, 0) + 1
-
         for char in t:
             if char not in counter or counter[char] == 0:
                 return False
             counter[char] -= 1
 
+        return True
+
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
+        counter = [0] * 26
+        for c in s:
+            counter[ord(c) - ord("a")] += 1
+        for c in t:
+            counter[ord(c) - ord("a")] -= 1
+        for i,val in enumerate(counter):
+            if val != 0:
+                return False
         return True
