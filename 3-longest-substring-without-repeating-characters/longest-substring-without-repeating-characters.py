@@ -32,24 +32,58 @@
 #                     res = max(res, j - i + 1)
 #         return res
 
-# Approach 2: Sliding Window, TC: O(n), SC: O(k) -> O(1)
+# Approach 2: Sliding Window, TC: O(2n) -> O(n), SC: O(k) -> O(1)
+
+# class Solution:
+#     def lengthOfLongestSubstring(Self, s: str) -> int:
+#         chars = Counter()
+#         left = right = 0
+#         res = 0
+#         while right < len(s):
+#             r = s[right]
+#             chars[r] += 1
+            
+#             while chars[r] > 1:
+#                 l = s[left]
+#                 chars[l] -= 1
+#                 left += 1
+            
+#             res = max(res, right - left + 1)
+
+#             right += 1
+
+#         return res
+
+# Approach 3: Sliding Window Optimised, TC: O(n), SC: O(n, m) -> O(1)
+# class Solution:
+#     def lenghtOfLongestSubstring(self, s: str) -> int:
+#         n = len(s)
+#         ans = 0
+
+#         charToNextIndex = {}
+
+#         i = 0
+
+#         for j in range(n):
+#             if s[j] in charToNextIndex:
+#                 i = max(charToNextIndex[s[j]], i)
+
+#             ans = max(ans, j - i + 1)
+#             charToNextIndex[s[j]] = j + 1
 
 class Solution:
-    def lengthOfLongestSubstring(Self, s: str) -> int:
-        chars = Counter()
-        left = right = 0
-        res = 0
-        while right < len(s):
-            r = s[right]
-            chars[r] += 1
-            
-            while chars[r] > 1:
-                l = s[left]
-                chars[l] -= 1
-                left += 1
-            
-            res = max(res, right - left + 1)
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        n = len(s)
+        ans = 0
+        charToNextIndex = {}
 
-            right += 1
+        i = 0
 
-        return res
+        for j in range(n):
+            if s[j] in charToNextIndex:
+                i = max(charToNextIndex[s[j]],i)
+
+            ans = max(ans, j - i + 1)
+            charToNextIndex[s[j]] = j + 1
+
+        return ans
