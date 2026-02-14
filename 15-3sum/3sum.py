@@ -25,16 +25,48 @@
 #                     lo += 1
 
 
+# class Solution:
+#     def threeSum(self, nums: List[int]) -> List[List[int]]:
+#         res, dups = set(), set()
+#         seen = {}
+#         for i, val1 in enumerate(nums):
+#             if val1 not in dups:
+#                 dups.add(val1)
+#                 for j, val2 in enumerate(nums[i+1 :]):
+#                     complement = -val1 - val2
+#                     if complement in seen and seen[complement] == i:
+#                         res.add(tuple(sorted((val1, val2, complement))))
+#                     seen[val2] = i
+#         return [list(x) for x in res]   
+
+# Brute Force code - Three loops and sort the elements before pushing to set - TC(O(N^3)), SC(O(1)) --- TLE Error
+# class Solution:
+#     def threeSum(self, nums: List[int]) -> List[List[int]]:
+#         res = set()
+#         for i in range(len(nums) - 2):
+#             for j in range(i+1, len(nums)):
+#                 for k in range(j+1, len(nums)):
+#                     if(nums[i] + nums[j] + nums[k] == 0):
+#                         res.add(tuple(sorted([nums[i], nums[j], nums[k]])))
+
+
+#         return list(res)
+
+# Approach - Better Approach - Using Hash Set - TC((O(n^2))), SC(O(N)) - TLE Error if input contains lot of Zero's
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        res, dups = set(), set()
-        seen = {}
-        for i, val1 in enumerate(nums):
-            if val1 not in dups:
-                dups.add(val1)
-                for j, val2 in enumerate(nums[i+1 :]):
-                    complement = -val1 - val2
-                    if complement in seen and seen[complement] == i:
-                        res.add(tuple(sorted((val1, val2, complement))))
-                    seen[val2] = i
-        return [list(x) for x in res]                
+        res = set()
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            tempSet = set()
+            for j in range(i+1, len(nums)):
+                k = -(nums[i] + nums[j])
+                if k in tempSet:
+                    res.add(tuple(sorted([nums[i], nums[j], k])))
+                
+                tempSet.add(nums[j])
+            
+        
+        return [list(x) for x in res]
+                
