@@ -52,21 +52,57 @@
 
 #         return list(res)
 
-# Approach - Better Approach - Using Hash Set - TC((O(n^2))), SC(O(N)) - TLE Error if input contains lot of Zero's
-class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-        res = set()
-        for i in range(len(nums)):
-            if i > 0 and nums[i] == nums[i-1]:
-                continue
-            tempSet = set()
-            for j in range(i+1, len(nums)):
-                k = -(nums[i] + nums[j])
-                if k in tempSet:
-                    res.add(tuple(sorted([nums[i], nums[j], k])))
+# Approach - Better Approach - Using Hash Set - TC((O(n^2) + logM)), SC(O(N)+O(TemSetSize)) - TLE Error if input contains lot of Zero's if duplicate check is not specified
+# class Solution:
+    # def threeSum(self, nums: List[int]) -> List[List[int]]:
+    #     res = set()
+    #     for i in range(len(nums)):
+    #         if i > 0 and nums[i] == nums[i-1]:
+    #             continue
+    #         tempSet = set()
+    #         for j in range(i+1, len(nums)):
+    #             k = -(nums[i] + nums[j])
+    #             if k in tempSet:
+    #                 res.add(tuple(sorted([nums[i], nums[j], k])))
                 
-                tempSet.add(nums[j])
+    #             tempSet.add(nums[j])
             
         
-        return [list(x) for x in res]
+    #     return [list(x) for x in res]
+
+    # Approach - Best
+class Solution:
+    def threeSum(self, nums:List[int]) -> List[List[int]]:
+        res = []
+        nums.sort()
+        n = len(nums)
+
+        for i in range(n - 2):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            if nums[i] > 0:
+                break
+            j, k = i + 1, n - 1
+
+            while j < k:
+                s = nums[i] + nums[j] + nums[k]
+
+                if s < 0:
+                    j += 1
+                elif s > 0:
+                    k -= 1
+                else:
+                    res.append([nums[i], nums[j], nums[k]])
+                    j += 1
+                    k -= 1
+
+                    # skip duplicated safely
+                    while j < k and nums[j] == nums[j - 1]:
+                        j += 1
+                    while j < k and nums[k] == nums[k + 1]:
+                        k -= 1
+
+        return res
+
+
                 
