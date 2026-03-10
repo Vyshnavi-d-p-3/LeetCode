@@ -32,27 +32,45 @@
 #             ans += min(left_max, right_max) - height[i]
 #         return ans
 
+# class Solution:
+#     def trap(Self, height: List[int]) -> int:
+#         # Case of empty height list
+#         if len(height) == 0:
+#             return 0
+#         ans = 0
+#         size = len(height)
+#         # Create left and right max arrays
+#         left_max, right_max = [0] * size, [0] * size
+#         # Initialize first height in to left max
+#         left_max[0] = height[0]
+#         for i in range(1, size):
+#             # Update left max with current max
+#             left_max[i] = max(height[i], left_max[i - 1])
+#         # Initialize last height in to right max
+#         right_max[size - 1] = height[size-1]
+#         for i in range(size-2, -1, -1):
+#             # update right max with current max
+#             right_max[i] = max(height[i], right_max[i + 1])
+#         # Calculate the trapped water
+#         for i in range(1, size - 1):
+#             ans += min(left_max[i], right_max[i]) - height[i]
+#         # Return amount of trapped water
+#         return ans
+
 class Solution:
-    def trap(Self, height: List[int]) -> int:
-        # Case of empty height list
-        if len(height) == 0:
-            return 0
-        ans = 0
-        size = len(height)
-        # Create left and right max arrays
-        left_max, right_max = [0] * size, [0] * size
-        # Initialize first height in to left max
-        left_max[0] = height[0]
-        for i in range(1, size):
-            # Update left max with current max
-            left_max[i] = max(height[i], left_max[i - 1])
-        # Initialize last height in to right max
-        right_max[size - 1] = height[size-1]
-        for i in range(size-2, -1, -1):
-            # update right max with current max
-            right_max[i] = max(height[i], right_max[i + 1])
-        # Calculate the trapped water
-        for i in range(1, size - 1):
-            ans += min(left_max[i], right_max[i]) - height[i]
-        # Return amount of trapped water
+    def trap(self, height):
+        ans =0
+        current = 0
+        st = []
+        while current < len(height):
+            while len(st) != 0 and height[current] > height[st[-1]]:
+                top  = st[-1]
+                st.pop()
+                if len(st) == 0:
+                    break
+                distance = current - st[-1] - 1
+                bounded_height = (min(height[current], height[st[-1]]) - height[top])
+                ans += distance * bounded_height
+            st.append(current)
+            current += 1
         return ans
