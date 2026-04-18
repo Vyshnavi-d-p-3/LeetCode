@@ -1,22 +1,31 @@
+// Using HashMap - SC(O(N/2 + 1)), TC(O(N))
+// class Solution {
+// public:
+//     int majorityElement(vector<int>& nums) {
+//         unordered_map<int, int> counts;
+//         for(int num: nums){
+//             if(counts.find(num) == counts.end()){
+//                 counts[num] = 1;
+//             }else {
+//                 counts[num]++;
+//             }
+//         }
+//         for(auto entry : counts) {
+//             if(entry.second > nums.size() / 2) return entry.first;
+//         }
+//         return -1;
+//     }
+// };
+
+// Monotonic Sorting - TC(O(NlogN))
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        unordered_map<int, int> counts;
-        for(int num: nums){
-            if(counts.find(num) == counts.end()){
-                counts[num] = 1;
-            }else {
-                counts[num]++;
-            }
-        }
-        for(auto entry : counts) {
-            if(entry.second > nums.size() / 2) return entry.first;
-        }
-        return -1;
+        sort(nums.begin(), nums.end());
+        return nums[nums.size()/2];
     }
+
 };
-
-
 
 // Moors Voting Algorithm
 // class Solution {
