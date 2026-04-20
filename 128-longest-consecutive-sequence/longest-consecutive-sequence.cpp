@@ -20,6 +20,23 @@ public:
         //     count = max(temp, count);
         // }
         // return count;
+            if(nums.size() == 0) {
+                return 0;
+            }
+            sort(nums.begin(), nums.end());
+            int count = 1;
+            int temp = 1;
+            for(int i = 0; i < nums.size() - 1; i++){
+                if(nums[i] == nums[i+1] || nums[i] == nums[i+1] - 1){
+                    if(nums[i] == nums[i+1] - 1){
+                        temp++;
+                    }
+                }else {
+                    temp = 1;
+                }
+                count = max(temp, count);
+            }
+            return count;
 
         // Approach 2 : Using unordered_set which has Time Complexity - O(N) and Space Complexity - O(N)
         // unordered_set<int> numSet(nums.begin(), nums.end());
@@ -37,17 +54,17 @@ public:
 
 
         // Approach 3 : Using unordered map with TC: O(N) and SC: O(N)
-        unordered_map<int, int> mp;
-        int maxLen = 0;
-        for(int num: nums){
-            if(!mp[num]){
-                mp[num] = mp[num-1] + mp[num+1] + 1;
-                mp[num - mp[num-1]] = mp[num];
-                mp[num + mp[num+1]] = mp[num];
-                maxLen = max(maxLen, mp[num]);
-            }
-        }
-        return maxLen;
+        // unordered_map<int, int> mp;
+        // int maxLen = 0;
+        // for(int num: nums){
+        //     if(!mp[num]){
+        //         mp[num] = mp[num-1] + mp[num+1] + 1;
+        //         mp[num - mp[num-1]] = mp[num];
+        //         mp[num + mp[num+1]] = mp[num];
+        //         maxLen = max(maxLen, mp[num]);
+        //     }
+        // }
+        // return maxLen;
 
         // Approach 4 : Using Hashset TC: O(N), SC: O(N)
         // unordered_set<int> numSet(nums.begin(), nums.end());
