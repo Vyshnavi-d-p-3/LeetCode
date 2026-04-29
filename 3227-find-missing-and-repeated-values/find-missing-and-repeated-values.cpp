@@ -2,23 +2,62 @@ class Solution {
 public:
     vector<int> findMissingAndRepeatedValues(vector<vector<int>>& grid) {
         int n = grid.size();
-        int total = n*n;
-        int repeating = -1, missing = -1;
-        vector<int> hash(total + 1, 0);
+        int N = n * n;
 
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                hash[grid[i][j]]++;
+        int xr = 0;
+
+        // XOR all grid values
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                xr ^= grid[i][j];
             }
         }
 
-        for(int i = 1; i <= total; i++){
-            if(hash[i] == 2) repeating = i;
-            else if(hash[i] == 0) missing = i;
-            
-            if(repeating != -1 && missing != -1) break;
+        // XOR numbers from 1 to n*n
+        for (int i = 1; i <= N; i++) {
+            xr ^= i;
         }
 
-        return {repeating, missing};
+        // xr = repeated ^ missing
+        int bit = xr & -xr;   // rightmost set bit
+
+        int zero = 0, one = 0;
+
+        // Divide grid values into two groups
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] & bit) {
+                    one ^= grid[i][j];
+                } else {
+                    zero ^= grid[i][j];
+                }
+            }
+        }
+
+        // Divide numbers 1 to n*n into two groups
+        for (int i = 1; i <= N; i++) {
+            if (i & bit) {
+                one ^= i;
+            } else {
+                zero ^= i;
+            }
+        }
+
+        // Find which one is repeated
+        int countZero = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == zero) {
+                    countZero++;
+                }
+            }
+        }
+
+        if (countZero == 2) {
+            return {zero, one}; // {repeated, missing}
+        }
+
+        return {one, zero};
     }
 };
