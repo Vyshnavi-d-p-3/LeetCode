@@ -20,31 +20,23 @@ public:
 */
 
 class Solution {
-private:
-    unordered_map<Node*, Node*> visited;
 public:
+    Node* cloneUtil(Node* node, unordered_map<Node*, Node*>& mp) {
+        if(!node) return NULL;
+        Node* newNode = new Node(node->val);
+        mp[node] = newNode;
+        for(auto neighbor: node->neighbors) {
+            if(mp.find(neighbor) == mp.end()) {
+                (newNode->neighbors).push_back(cloneUtil(neighbor, mp));
+            }else {
+                (newNode->neighbors).push_back(mp[neighbor]);
+            }
+        }
+        return newNode;
+    }
+
     Node* cloneGraph(Node* node) {
-        if(node == NULL) {
-            return node;
-        }
-        
-        // If the node was already visited before retun the colne from the visited dictionary.
-        if(visited.find(node) != visited.end()) {
-            return visited[node];
-        }
-
-        // Create a clone for the given node
-        // Note that we don't have cloned neighbors as of now, hence [].
-        Node* cloneNode = new Node(node->val, {});
-
-        // The key is original node and value being the clone node.
-        visited[node] = cloneNode;
-        
-        // Iterate through the neighbors to generate their clones
-        // and prepare a list of cloned neighbors to be added to the cloned node.
-        for(Node* neighbor : node -> neighbors) {
-            cloneNode -> neighbors.push_back(cloneGraph(neighbor));
-        }
-        return cloneNode;
+        unordered_map<Node*, Node*> mp; // old - new
+        return cloneUtil(node, mp);
     }
 };
